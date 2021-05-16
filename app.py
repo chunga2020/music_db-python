@@ -56,9 +56,7 @@ def get_albums():
         return cursor.fetchall()
     except mysql.connector.Error as e:
         print(str(e), file=sys.stderr)
-<<<<<<< HEAD
-        return False
-    return True
+        return None
 
 """
 Delete an album from the database.
@@ -79,10 +77,7 @@ def delete_album(title, artist):
         print(str(e), file=sys.stderr)
         return False
     return True
-=======
-        return None
         
->>>>>>> get_albums
 
 ############################
 # Configuring the app data #
