@@ -112,7 +112,6 @@ def __validate_field(field):
     return False
 
 def __validate_enum(data, field):
-    # TODO: print valid enum values if `data` doesn't fit `field`
     """
     Return whether data has the correct type for its SQL enum field.
 
