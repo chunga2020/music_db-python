@@ -222,7 +222,18 @@ def update_album(title, artist, field, data):
 
 
 def handle_add_album():
-    pass
+    print("=== REQUIRED DATA ===".center(40))
+    title = input("Enter album title (<= 100 characters): ")
+    artist = input("Enter artist (<= 100 characters): ")
+    genre = input("Enter genre (<= 50 characters): ")
+    year = input("Enter album year (1901 through 2155 valid): ")
+    medium = input("Enter medium (one of [cd, digital, vinyl]): ")
+    type = input("Enter album type (one of [studio album, single, ep]: ")
+    complete = input("Enter completeness status (y/n): ")
+
+    print("=== OPTIONAL DATA ===".center(40))
+    comment = input("Enter a comment (empty for none, <= 100 characters): ")
+    composer = input("Enter a composer (empty for none, <= 50 characters): ")
 
 def handle_delete_album():
     pass
