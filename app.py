@@ -6,16 +6,16 @@ import sys
 # Function definitions #
 ########################
 
-"""
-Add an album to the database.
-
-The `comment` and `composer` fields default to None because they are not
-required in the database.
-
-Return True if the data is inserted successfully. Else, return False.
-"""
 def add_album(title, artist, genre, year, medium, type, complete,
         comment=None, composer=None):
+    """
+    Add an album to the database.
+
+    The `comment` and `composer` fields default to None because they are not
+    required in the database.
+
+    Return True if the data is inserted successfully. Else, return False.
+    """
     cursor = conn.cursor()
     query = "INSERT INTO albums (title, artist, genre, year, comment,"\
             "composer, medium, type, complete) VALUES ("\
@@ -43,13 +43,14 @@ def add_album(title, artist, genre, year, medium, type, complete,
     cursor.execute(query)
     conn.commit()
     return True
-"""
-Get all albums for listing.
 
-Return the list of album tuples to be displayed; on error return None and
-print the error.
-"""
 def get_albums():
+    """
+    Get all albums for listing.
+
+    Return the list of album tuples to be displayed; on error return None and
+    print the error.
+    """
     cursor = conn.cursor()
     try:
         cursor.execute("SELECT * FROM albums", multi=True)
@@ -58,15 +59,15 @@ def get_albums():
         print(str(e), file=sys.stderr)
         return None
 
-"""
-Delete an album from the database.
-
-This function only needs the title and artist of the album in question
-because those two fields make up the primary key of the `albums` table
-
-Return True on success; otherwise return False and print an error.
-"""
 def delete_album(title, artist):
+    """
+    Delete an album from the database.
+
+    This function only needs the title and artist of the album in question
+    because those two fields make up the primary key of the `albums` table
+
+    Return True on success; otherwise return False and print an error.
+    """
     cursor = conn.cursor()
     query = f"DELETE FROM albums WHERE title = '{title}' AND "\
             f"artist = '{artist}'"     
