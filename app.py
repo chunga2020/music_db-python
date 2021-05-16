@@ -78,6 +78,34 @@ def delete_album(title, artist):
         return False
     return True
 
+
+"""
+Return whether a field name is part of the SQL schema.
+
+In updating an album, the user needs a way to specify the field they want to
+update. Doing this introduces the possibility of errors if the user inputs
+an invalid field name, hence the need to check the input.
+
+Hinted to be private because users should not need to do this themselves
+
+Parameters:
+    field: the field name to check
+"""
+def __validate_field(field):
+    cursor = conn.cursor()
+    # Get a tuple of all the column names
+    query = "SELECT column_name "\
+            "FROM information_schema.columns "\
+            f"WHERE table_schema = '{parser.get('mysql', 'database')}' "\
+            "AND table_name = 'albums'"
+    cursor.execute(query)
+    results = cursor.fetchall()
+    for result in results:
+        if field == result[0]:
+            return True
+
+    return False
+
 """
 Update a field of an album.
 
