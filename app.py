@@ -6,6 +6,26 @@ import sys
 # Function definitions #
 ########################
 
+def album_exists(title, artist):
+    """
+    Return whether an album exists in the database.
+
+    Parameters:
+        title: title of the album to search for
+        artist: artist of the album to search for
+
+    Return True if found, False otherwise
+    """
+    album_check = conn.cursor()
+    check_query = "SELECT * FROM albums "\
+                  f"WHERE title = '{title}' AND artist = '{artist}'"
+    if album_check.execute(check_query) is None:
+        print(f"Album '{title} by {artist}' not found", file=sys.stderr)
+        return False
+
+    return True
+
+
 def add_album(title, artist, genre, year, medium, type, complete,
         comment=None, composer=None):
     """
@@ -16,6 +36,12 @@ def add_album(title, artist, genre, year, medium, type, complete,
 
     Return True if the data is inserted successfully. Else, return False.
     """
+    # make sure album doesn't already exist in database
+    if album_exists(title, artist):
+        print(f"Album '{title} by {artist}' already exists in database!",
+            file=sys.stderr)
+        return False
+
     cursor = conn.cursor()
     query = "INSERT INTO albums (title, artist, genre, year, comment,"\
             "composer, medium, type, complete) VALUES ("\
@@ -68,6 +94,11 @@ def delete_album(title, artist):
 
     Return True on success; otherwise return False and print an error.
     """
+    # make sure album exists
+    if not album_exists(title, artist):
+        print(f"Album '{title} by {artist}' does not exist, so can't delete.",
+            file=sys.stderr)
+        return False
     cursor = conn.cursor()
     query = f"DELETE FROM albums WHERE title = '{title}' AND "\
             f"artist = '{artist}'"     
@@ -175,11 +206,9 @@ def update_album(title, artist, field, data):
     Return True on success; on error, return False and print an error.
     """
     # make sure album exists
-    album_check = conn.cursor()
-    check_query = "SELECT * FROM albums "\
-                  f"WHERE title = '{title}' AND artist = '{artist}'"
-    if album_check.execute(check_query) is None:
-        print(f"Album '{title} by {artist}' not found", file=sys.stderr)
+    if not album_exists(title, artist):
+        print(f"Album '{title} by {artist}' does not exist, so can't update.",
+        file=sys.stderr)
         return False
 
     # make sure we got a valid field
