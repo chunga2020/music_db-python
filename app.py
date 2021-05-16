@@ -67,6 +67,43 @@ except mysql.connector.Error as e:
     print(str(e), file=sys.stderr)
     exit(-1)
 
+###################
+# Create CLI loop #
+###################
+print("Welcome")
+option = ""
+
+while option != "q":
+    print("Choose an option:")
+    print("1. Add album")
+    print("2. Delete album")
+    print("3. Update album info")
+    print("4. List albums")
+    print("q. Quit")
+    option = input("> ")
+
+    if option == '1':
+        print("add")
+        # handle_add_album()
+        print()
+    elif option == '2':
+        print("delete")
+        # handle_delete_album()
+        print()
+    elif option == '3':
+        print("update")
+        # handle_update_album()
+        print()
+    elif option == '4':
+        print("list")
+        # handle_list_albums()
+        print()
+    elif option == 'q':
+        print("Goodbye!\n")
+    else:
+        pass
+
+
 ####################################
 # Close the connection to clean up #
 ####################################
