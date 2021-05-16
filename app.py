@@ -107,6 +107,48 @@ def __validate_field(field):
 
     return False
 
+def __validate_enum(data, field):
+    """
+    Return whether data has the correct type for its SQL enum field.
+
+    Parameters:
+        data: the data to check
+        field: the enum to check the data against
+
+    Return True if the data is a valid value for the specified field, false
+    otherwise.
+    """
+    cursor = conn.cursor()
+    query = "SELECT column_type "\
+            "FROM information_schema.columns "\
+            f"WHERE table_schema = '{parser.get('mysql', 'database')}' "\
+            "AND table_name = 'albums' "\
+            f"AND column_name = '{field}'"
+    cursor.execute(query)
+
+    ################################################
+    # decoding and parsing of messy SQL data types #
+    ################################################
+
+    # the list of tuples, as it comes back from SQL
+    valid_options = cursor.fetchall()
+    # drill down through list and tuple, giving us a bytes object
+    valid_options = valid_options[0][0]
+    # decode the bytes into a UTF-8 string
+    valid_options = valid_options.decode()
+    # skip "enum"
+    valid_options = valid_options[4:]
+    # get rid of the parens...
+    valid_options = valid_options.strip('()')
+    # and the single quotes...
+    valid_options = valid_options.replace("'", "")
+    # now we can make a list out of it
+    valid_options = valid_options.split(",")
+    print(valid_options)
+
+    # finally we can see if the data is valid or not
+    return (data in valid_options)
+
 def update_album():
     """
     Update a field of an album.
