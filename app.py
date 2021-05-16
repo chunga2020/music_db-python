@@ -44,6 +44,21 @@ def add_album(title, artist, genre, year, medium, type, complete,
     conn.commit()
     return True
 
+"""
+List all albums.
+
+Return True on success; on error, return False and print error.
+"""
+def list_albums():
+    cursor = conn.cursor()
+    try:
+        cursor.execute("SELECT * FROM albums", multi=True)
+        for result in cursor.fetchall():
+            print(result)
+    except mysql.connector.Error as e:
+        print(str(e), file=sys.stderr)
+        return False
+    return True
 ############################
 # Configuring the app data #
 ############################
