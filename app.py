@@ -8,7 +8,20 @@ import mysql.connector
 parser = configparser.ConfigParser()
 
 parser.read("config.ini")
-for section in parser.sections():
-    print(f"Reading data from section {section}")
-    for key in parser[section]:
-        print(f"\t{key} = {parser.get(section, key)}")
+
+###############################
+# Setting up MySQL connection #
+###############################
+conn = mysql.connector.connect(
+        user=parser.get("mysql", "user"),
+        password=parser.get("mysql", "password"),
+        host=parser.get("mysql", "host"),
+        database=parser.get("mysql", "database")
+)
+if conn is not None:
+    print(conn)
+
+####################################
+# Close the connection to clean up #
+####################################
+conn.close()
