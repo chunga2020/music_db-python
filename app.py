@@ -81,6 +81,7 @@ def delete_album(title, artist):
 
 
 def __validate_field(field):
+    # TODO: print out valid fields if supplied field is invalid
     """
     Return whether a field name is part of the SQL schema.
 
@@ -108,6 +109,7 @@ def __validate_field(field):
     return False
 
 def __validate_enum(data, field):
+    # TODO: print valid enum values if `data` doesn't fit `field`
     """
     Return whether data has the correct type for its SQL enum field.
 
@@ -144,12 +146,11 @@ def __validate_enum(data, field):
     valid_options = valid_options.replace("'", "")
     # now we can make a list out of it
     valid_options = valid_options.split(",")
-    print(valid_options)
 
     # finally we can see if the data is valid or not
     return (data in valid_options)
 
-def update_album():
+def update_album(title, artist, field, data):
     """
     Update a field of an album.
 
@@ -161,9 +162,54 @@ def update_album():
         artist: the artist of the album to be updated
         field: the field of the record to be udpated
         data: the new data for the field to be updated
+
+    Return True on success; on error, return False and print an error.
     """
-    pass
-        
+    # make sure album exists
+    album_check = conn.cursor()
+    check_query = "SELECT * FROM albums "\
+                  f"WHERE title = '{title}' AND artist = '{artist}'"
+    if album_check.execute(check_query) is None:
+        print(f"Album '{title} by {artist}' not found", file=sys.stderr)
+        return False
+
+    # make sure we got a valid field
+    if not __validate_field(field):
+        return False
+
+
+    # if a year, make sure it fits MySQL's constraints on years
+    if field == "year" and (int(data) < 1901 or int(data) > 2155):
+        print("Year is not accepted by MySQL. Must be [1901, 2155].",
+                file=sys.stderr)
+        return False
+    
+    # Check varchar length constraints
+    if len(data) > 100 and (field in ['title', 'artist', 'comment']):
+        print(f"Data too long for field {field}. Reduce to <100 characters.",
+            file=sys.stderr)
+        return False
+    if len(data) > 50 and (field in ['genre', 'composer']):
+        print(f"Data too long for field {field}. Reduce to <50 characters.",
+            file=sys.stderr)
+        return False
+
+    # Check enum validity
+    if field in ['medium', 'type', 'complete']:
+        if not __validate_enum(data, field):
+            return False
+    
+    # We should be okay now, so do the update
+    cursor = conn.cursor()
+    query = f"UPDATE albums SET {field} = '{data}' "\
+            f"WHERE title = '{title}' AND artist = '{artist}'"
+    try:
+        cursor.execute(query)
+    except mysql.connector.Error as e:
+        print(str(e), file=sys.stderr)
+        return False
+    conn.commit()
+
 
 ############################
 # Configuring the app data #
