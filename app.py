@@ -59,6 +59,27 @@ def list_albums():
         print(str(e), file=sys.stderr)
         return False
     return True
+
+"""
+Delete an album from the database.
+
+This function only needs the title and artist of the album in question
+because those two fields make up the primary key of the `albums` table
+
+Return True on success; otherwise return False and print an error.
+"""
+def delete_album(title, artist):
+    cursor = conn.cursor()
+    query = f"DELETE FROM albums WHERE title = '{title}' AND "\
+            f"artist = '{artist}'"     
+    try:
+        cursor.execute(query)
+        conn.commmit()
+    except mysql.connector.Error as e:
+        print(str(e), file=sys.stderr)
+        return False
+    return True
+
 ############################
 # Configuring the app data #
 ############################
