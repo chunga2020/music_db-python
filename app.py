@@ -80,19 +80,19 @@ def delete_album(title, artist):
     return True
 
 
-"""
-Return whether a field name is part of the SQL schema.
-
-In updating an album, the user needs a way to specify the field they want to
-update. Doing this introduces the possibility of errors if the user inputs
-an invalid field name, hence the need to check the input.
-
-Hinted to be private because users should not need to do this themselves
-
-Parameters:
-    field: the field name to check
-"""
 def __validate_field(field):
+    """
+    Return whether a field name is part of the SQL schema.
+
+    In updating an album, the user needs a way to specify the field they want to
+    update. Doing this introduces the possibility of errors if the user inputs
+    an invalid field name, hence the need to check the input.
+
+    Hinted to be private because users should not need to do this themselves
+
+    Parameters:
+        field: the field name to check
+    """
     cursor = conn.cursor()
     # Get a tuple of all the column names
     query = "SELECT column_name "\
@@ -107,19 +107,19 @@ def __validate_field(field):
 
     return False
 
-"""
-Update a field of an album.
-
-The title and artist fields are necessary because the database uses them
-together as the primary key of the `albums` table.
-
-Parameters:
-    title: the title of the album to be updated
-    artist: the artist of the album to be updated
-    field: the field of the record to be udpated
-    data: the new data for the field to be updated
-"""
 def update_album():
+    """
+    Update a field of an album.
+
+    The title and artist fields are necessary because the database uses them
+    together as the primary key of the `albums` table.
+
+    Parameters:
+        title: the title of the album to be updated
+        artist: the artist of the album to be updated
+        field: the field of the record to be udpated
+        data: the new data for the field to be updated
+    """
     pass
         
 
