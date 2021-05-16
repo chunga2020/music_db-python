@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS `music_db`;
 DROP TABLE IF EXISTS `albums`;
 CREATE TABLE `albums` (
   `id` int NOT NULL AUTO_INCREMENT,
