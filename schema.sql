@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS `music_db`;
+CREATE DATABASE IF NOT EXISTS `music_db`;
+USE `music_db`;
 DROP TABLE IF EXISTS `albums`;
 CREATE TABLE `albums` (
-  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
   `artist` varchar(100) NOT NULL,
   `genre` varchar(50) NOT NULL,
@@ -11,5 +11,5 @@ CREATE TABLE `albums` (
   `medium` enum('cd','digital','vinyl') NOT NULL,
   `type` enum('studio album','single','ep') NOT NULL,
   `complete` enum('y','n') NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (title, artist)
 )
