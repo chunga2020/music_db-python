@@ -77,6 +77,21 @@ def delete_album(title, artist):
         print(str(e), file=sys.stderr)
         return False
     return True
+
+"""
+Update a field of an album.
+
+The title and artist fields are necessary because the database uses them
+together as the primary key of the `albums` table.
+
+Parameters:
+    title: the title of the album to be updated
+    artist: the artist of the album to be updated
+    field: the field of the record to be udpated
+    data: the new data for the field to be updated
+"""
+def update_album():
+    pass
         
 
 ############################
