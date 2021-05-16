@@ -43,20 +43,20 @@ def add_album(title, artist, genre, year, medium, type, complete,
     cursor.execute(query)
     conn.commit()
     return True
-
 """
-List all albums.
+Get all albums for listing.
 
-Return True on success; on error, return False and print error.
+Return the list of album tuples to be displayed; on error return None and
+print the error.
 """
-def list_albums():
+def get_albums():
     cursor = conn.cursor()
     try:
         cursor.execute("SELECT * FROM albums", multi=True)
-        for result in cursor.fetchall():
-            print(result)
+        return cursor.fetchall()
     except mysql.connector.Error as e:
         print(str(e), file=sys.stderr)
+<<<<<<< HEAD
         return False
     return True
 
@@ -79,6 +79,10 @@ def delete_album(title, artist):
         print(str(e), file=sys.stderr)
         return False
     return True
+=======
+        return None
+        
+>>>>>>> get_albums
 
 ############################
 # Configuring the app data #
