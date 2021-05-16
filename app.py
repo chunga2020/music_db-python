@@ -218,6 +218,7 @@ def update_album(title, artist, field, data):
         print(str(e), file=sys.stderr)
         return False
     conn.commit()
+    return True
 
 
 def handle_add_album():
