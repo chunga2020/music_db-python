@@ -23,6 +23,7 @@ try:
     )
 except mysql.connector.Error as e:
     print(str(e), file=sys.stderr)
+    exit(-1)
 
 ####################################
 # Close the connection to clean up #
