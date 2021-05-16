@@ -44,6 +44,19 @@ def add_album(title, artist, genre, year, medium, type, complete,
     conn.commit()
     return True
 
+def handle_add_album():
+    pass
+
+def handle_delete_album():
+    pass
+
+def handle_update_album():
+    pass
+
+def handle_list_albums():
+    pass
+
+
 ############################
 # Configuring the app data #
 ############################
@@ -83,21 +96,13 @@ while option != "q":
     option = input("> ")
 
     if option == '1':
-        print("add")
-        # handle_add_album()
-        print()
+        handle_add_album()
     elif option == '2':
-        print("delete")
-        # handle_delete_album()
-        print()
+        handle_delete_album()
     elif option == '3':
-        print("update")
-        # handle_update_album()
-        print()
+        handle_update_album()
     elif option == '4':
-        print("list")
-        # handle_list_albums()
-        print()
+        handle_list_albums()
     elif option == 'q':
         print("Goodbye!\n")
     else:
