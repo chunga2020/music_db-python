@@ -81,7 +81,6 @@ def delete_album(title, artist):
 
 
 def __validate_field(field):
-    # TODO: print out valid fields if supplied field is invalid
     """
     Return whether a field name is part of the SQL schema.
 
@@ -106,6 +105,10 @@ def __validate_field(field):
         if field == result[0]:
             return True
 
+    valid_fields = [result[0] for result in results]
+    print("Invalid field. Choose one of the following:", file=sys.stderr)
+    for field in valid_fields:
+        print(f"\t{field}", file=sys.stderr)
     return False
 
 def __validate_enum(data, field):
@@ -148,7 +151,14 @@ def __validate_enum(data, field):
     valid_options = valid_options.split(",")
 
     # finally we can see if the data is valid or not
-    return (data in valid_options)
+    if data in valid_options:
+        return True
+    else:
+        print(f"Invalid choice for enum {field}. Choose one of the following",
+                file=sys.stderr)
+        for option in valid_options:
+            print(f"\t{option}", file=sys.stderr)
+        return False
 
 def update_album(title, artist, field, data):
     """
