@@ -16,11 +16,10 @@ def album_exists(title, artist):
 
     Return True if found, False otherwise
     """
-    album_check = conn.cursor()
+    album_check = conn.cursor(buffered=True)
     check_query = "SELECT * FROM albums "\
                   f"WHERE title = '{title}' AND artist = '{artist}'"
     if album_check.execute(check_query) is None:
-        print(f"Album '{title} by {artist}' not found", file=sys.stderr)
         return False
 
     return True
@@ -251,7 +250,25 @@ def update_album(title, artist, field, data):
 
 
 def handle_add_album():
-    pass
+    print("=== REQUIRED DATA ===".center(40))
+    title = input("Enter album title (<= 100 characters): ")
+    artist = input("Enter artist (<= 100 characters): ")
+    genre = input("Enter genre (<= 50 characters): ")
+    year = input("Enter album year (1901 through 2155 valid): ")
+    medium = input("Enter medium (one of [cd, digital, vinyl]): ")
+    type = input("Enter album type (one of [studio album, single, ep]: ")
+    complete = input("Enter completeness status (y/n): ")
+
+    print("=== OPTIONAL DATA ===".center(40))
+    comment = input("Enter a comment (empty for none, <= 100 characters): ")
+    if len(comment) == 0:
+        comment = None
+    composer = input("Enter a composer (empty for none, <= 50 characters): ")
+    if len(composer) == 0:
+        composer = None
+
+    add_album(title, artist, genre, year, medium, type, complete,
+            comment, composer)
 
 def handle_delete_album():
     pass
