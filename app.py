@@ -281,7 +281,8 @@ def handle_delete_album():
             file=sys.stderr)
 
 def handle_update_album():
-    pass
+    title = input("Enter the title of the album to be updated: ")
+    artist = input("Enter the artist of the album to be updated: ")
 
 def handle_list_albums():
     all_albums = get_albums()
