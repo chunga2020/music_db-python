@@ -219,28 +219,6 @@ def update_album(title, artist, field, data):
     if not __validate_field(field):
         return False
 
-
-    # if a year, make sure it fits MySQL's constraints on years
-    if field == "year" and (int(data) < 1901 or int(data) > 2155):
-        print("Year is not accepted by MySQL. Must be [1901, 2155].",
-                file=sys.stderr)
-        return False
-    
-    # Check varchar length constraints
-    if len(data) > 100 and (field in ['title', 'artist', 'comment']):
-        print(f"Data too long for field {field}. Reduce to <100 characters.",
-            file=sys.stderr)
-        return False
-    if len(data) > 50 and (field in ['genre', 'composer']):
-        print(f"Data too long for field {field}. Reduce to <50 characters.",
-            file=sys.stderr)
-        return False
-
-    # Check enum validity
-    if field in ['medium', 'type', 'complete']:
-        if not __validate_enum(data, field):
-            return False
-    
     # We should be okay now, so do the update
     cursor = conn.cursor()
     query = f"UPDATE albums SET {field} = '{data}' "\
@@ -300,6 +278,31 @@ def handle_update_album():
 
     new_data = input("Enter the new data for this field: ")
 
+    # if a year, make sure it fits MySQL's constraints on years
+    while field == "year" and (int(new_data) < 1901 or int(new_data) > 2155):
+        print("Year is not accepted by MySQL. Must be [1901, 2155].",
+                file=sys.stderr)
+        new_data = input("Enter the new data for this field: ")
+
+    # Check varchar length constraints
+    while len(new_data) > 100 and (field in ['title', 'artist', 'comment']):
+        print(f"Data too long for field {field}. Reduce to <100 characters. "
+              f"Data was {len(new_data)} characters.",
+              file=sys.stderr)
+        new_data = input("Enter the new data for this field: ")
+
+    while len(new_data) > 50 and (field in ['genre', 'composer']):
+        print(f"Data too long for field {field}. Reduce to <50 characters. "
+              f"Data was {len(new_data)} characters.",
+              file=sys.stderr)
+        new_data = input("Enter the new data for this field: ")
+
+    # Check enum validity
+    if field in ['medium', 'type', 'complete']:
+        if not __validate_enum(new_data, field):
+            return
+
+    # if we get here, everything should be valid, so update the record
     update_album(title, artist, field, new_data)
     print("Here's the new record:".center(40))
     __show_album(title, artist)
