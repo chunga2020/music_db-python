@@ -1,6 +1,7 @@
 import configparser
 import mysql.connector
 import sys
+import tabulate
 
 ########################
 # Function definitions #
@@ -277,8 +278,10 @@ def handle_update_album():
     pass
 
 def handle_list_albums():
-    pass
-
+    all_albums = get_albums()
+    print(tabulate.tabulate(all_albums,
+        headers=["Title", "Artist", "Genre", "Year", "Comment",
+            "Composer", "Medium", "Type", "Complete"]))
 
 ############################
 # Configuring the app data #
