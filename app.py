@@ -3,6 +3,15 @@ import mysql.connector
 import sys
 import tabulate
 
+###########################
+# Useful global variables #
+###########################
+"""
+Column names for `tabulate` table headers
+"""
+TABLE_HEADERS = ["Title", "Artist", "Genre", "Year", "Comment",
+            "Composer", "Medium", "Type", "Complete"]
+
 ########################
 # Function definitions #
 ########################
@@ -283,6 +292,20 @@ def handle_delete_album():
 def handle_update_album():
     title = input("Enter the title of the album to be updated: ")
     artist = input("Enter the artist of the album to be updated: ")
+    __show_album(title, artist)
+
+def __show_album(title, artist):
+    """
+    Show the details for the specified album.
+
+    Parameters:
+        title: the title of the album to display
+        artist: the artist of the album to display
+    """
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM albums WHERE "\
+                   f"title = '{title}' AND artist = '{artist}'")
+    print(tabulate.tabulate([list(cursor.fetchone())], headers=TABLE_HEADERS))
 
 def handle_list_albums():
     all_albums = get_albums()
