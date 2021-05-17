@@ -294,6 +294,17 @@ def handle_update_album():
         file=sys.stderr)
         return
     __show_album(title, artist)
+    field = input("Choose which field to update (all-lowercase): ")
+    while not __validate_field(field):
+        field = input("Choose which field to update (all-lowercase): ")
+
+    new_data = input("Enter the new data for this field: ")
+
+    update_album(title, artist, field, new_data)
+    print("Here's the new record:".center(40))
+    __show_album(title, artist)
+
+
 
 def __show_album(title, artist):
     """
