@@ -29,7 +29,8 @@ def album_exists(title, artist):
     album_check = conn.cursor(buffered=True)
     check_query = "SELECT * FROM albums "\
                   f"WHERE title = '{title}' AND artist = '{artist}'"
-    if album_check.execute(check_query) is None:
+    album_check.execute(check_query)
+    if album_check.fetchone() is None:
         return False
 
     return True
