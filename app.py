@@ -215,12 +215,6 @@ def update_album(title, artist, field, data):
 
     Return True on success; on error, return False and print an error.
     """
-    # make sure album exists
-    if not album_exists(title, artist):
-        print(f"Album '{title} by {artist}' does not exist, so can't update.",
-        file=sys.stderr)
-        return False
-
     # make sure we got a valid field
     if not __validate_field(field):
         return False
@@ -293,6 +287,12 @@ def handle_delete_album():
 def handle_update_album():
     title = input("Enter the title of the album to be updated: ")
     artist = input("Enter the artist of the album to be updated: ")
+
+    # make sure album exists
+    if not album_exists(title, artist):
+        print(f"Album '{title} by {artist}' does not exist, so can't update.",
+        file=sys.stderr)
+        return
     __show_album(title, artist)
 
 def __show_album(title, artist):
