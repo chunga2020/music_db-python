@@ -16,11 +16,10 @@ def album_exists(title, artist):
 
     Return True if found, False otherwise
     """
-    album_check = conn.cursor()
+    album_check = conn.cursor(buffered=True)
     check_query = "SELECT * FROM albums "\
                   f"WHERE title = '{title}' AND artist = '{artist}'"
     if album_check.execute(check_query) is None:
-        print(f"Album '{title} by {artist}' not found", file=sys.stderr)
         return False
 
     return True
@@ -262,7 +261,14 @@ def handle_add_album():
 
     print("=== OPTIONAL DATA ===".center(40))
     comment = input("Enter a comment (empty for none, <= 100 characters): ")
+    if len(comment) == 0:
+        comment = None
     composer = input("Enter a composer (empty for none, <= 50 characters): ")
+    if len(composer) == 0:
+        composer = None
+
+    add_album(title, artist, genre, year, medium, type, complete,
+            comment, composer)
 
 def handle_delete_album():
     pass
