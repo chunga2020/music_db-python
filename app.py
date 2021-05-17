@@ -322,6 +322,15 @@ def __show_album(title, artist):
                    f"title = '{title}' AND artist = '{artist}'")
     print(tabulate.tabulate([list(cursor.fetchone())], headers=TABLE_HEADERS))
 
+def handle_find_album():
+    title = input("Enter the title of the album to search for: ")
+    artist = input("Enter the artist of the album to search for: ")
+
+    if album_exists(title, artist):
+        __show_album(title, artist)
+    else:
+        print(f"Album does not exist in database.", file=sys.stderr)
+
 def handle_list_albums():
     all_albums = get_albums()
     print(tabulate.tabulate(all_albums,
@@ -363,6 +372,7 @@ while option != "q":
     print("2. Delete album")
     print("3. Update album info")
     print("4. List albums")
+    print("5. Find album")
     print("q. Quit")
     option = input("> ")
 
@@ -374,6 +384,8 @@ while option != "q":
         handle_update_album()
     elif option == '4':
         handle_list_albums()
+    elif option == '5':
+        handle_find_album()
     elif option == 'q':
         print("Goodbye!\n")
     else:
