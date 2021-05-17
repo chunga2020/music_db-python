@@ -272,7 +272,13 @@ def handle_add_album():
             comment, composer)
 
 def handle_delete_album():
-    pass
+    title = input("Title of album to delete: ")
+    artist = input("Artist of album to delete: ")
+    if album_exists(title, artist):
+        delete_album(title, artist)
+    else:
+        print(f"Album '{title} by {artist}' does not exist, so can't delete.",
+            file=sys.stderr)
 
 def handle_update_album():
     pass
