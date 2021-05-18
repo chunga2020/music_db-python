@@ -1,4 +1,4 @@
-# NAME GOES HERE
+# music_db-python
 
 ## A simple music database interface
 
