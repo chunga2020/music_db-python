@@ -15,4 +15,5 @@ Dependencies:
 1. Run `pip install -r requirements.txt` to install the packages needed by
    Python to run the application
 2. Populate [config-sample.ini](config-sample.ini) with the values needed to
-   access your MySQL database and desired for Flask
+   access your MySQL database, and rename it to `config.ini` — `mv
+   config-sample.ini config.ini`
