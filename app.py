@@ -95,7 +95,14 @@ def get_albums(sort_fields=[]):
     """
     cursor = conn.cursor()
     try:
-        cursor.execute("SELECT * FROM albums", multi=True)
+        query = "SELECT * FROM albums"
+        if sort_fields != []:
+            query += " ORDER BY "
+            query += sort_fields.pop(0)
+            while sort_fields != []:
+                query += ", " + sort_fields.pop(0)
+                print(query)
+        cursor.execute(query, multi=True)
         return cursor.fetchall()
     except mysql.connector.Error as e:
         print(str(e), file=sys.stderr)
@@ -352,7 +359,13 @@ def handle_find_album():
         print(f"Album does not exist in database.", file=sys.stderr)
 
 def handle_list_albums():
-    all_albums = get_albums()
+    print("Choose sort fields, in order to sort by, "\
+            "separated by spaces (default: title)")
+    __show_valid_fields()
+    sort_fields = input("> ")
+    fields = sort_fields.split(" ")
+
+    all_albums = get_albums(fields)
     print(tabulate.tabulate(all_albums,
         headers=["Title", "Artist", "Genre", "Year", "Comment",
             "Composer", "Medium", "Type", "Complete"]))
