@@ -1,6 +1,7 @@
 import configparser
 import mysql.connector
 import sys
+from mysql.connector import cursor
 import tabulate
 
 ###########################
@@ -99,6 +100,20 @@ def get_albums(sort_fields=[]):
     except mysql.connector.Error as e:
         print(str(e), file=sys.stderr)
         return None
+
+def __show_valid_fields():
+    """ Display the columns of the `albums` table for the user's benefit """
+    cursor = conn.cursor()
+    query = "SELECT column_name "\
+            "FROM information_schema.columns "\
+            f"WHERE table_schema = '{parser.get('mysql', 'database')}' "\
+            "AND table_name = 'albums'"
+    cursor.execute(query)
+    results = cursor.fetchall()
+    fields = [result[0] for result in results]
+    print("Valid fields:")
+    for field in fields:
+        print(f"* {field}")
 
 def delete_album(title, artist):
     """
