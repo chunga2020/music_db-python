@@ -366,9 +366,10 @@ def handle_list_albums():
     fields = sort_fields.split(" ")
 
     all_albums = get_albums(fields)
-    print(tabulate.tabulate(all_albums,
-        headers=["Title", "Artist", "Genre", "Year", "Comment",
-            "Composer", "Medium", "Type", "Complete"]))
+    if all_albums is not None:
+        print(tabulate.tabulate(all_albums,
+            headers=["Title", "Artist", "Genre", "Year", "Comment",
+                "Composer", "Medium", "Type", "Complete"]))
 
 ############################
 # Configuring the app data #
