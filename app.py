@@ -80,9 +80,14 @@ def add_album(title, artist, genre, year, medium, type, complete,
     conn.commit()
     return True
 
-def get_albums():
+def get_albums(sort_fields=[]):
     """
     Get all albums for listing.
+
+    Parameters:
+        sort_fields: a list of the fields to sort the output by, in the order
+        they are to be used. If empty, the default is to sort by title in
+        ascending alphabetical order.
 
     Return the list of album tuples to be displayed; on error return None and
     print the error.
