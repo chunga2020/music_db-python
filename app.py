@@ -363,9 +363,11 @@ def handle_list_albums():
             "separated by spaces (default: title)")
     __show_valid_fields()
     sort_fields = input("> ")
-    fields = sort_fields.split(" ")
+    sort_fields = sort_fields.split(" ")
+    if sort_fields == ['']:
+        sort_fields = []
 
-    all_albums = get_albums(fields)
+    all_albums = get_albums(sort_fields)
     if all_albums is not None:
         print(tabulate.tabulate(all_albums,
             headers=["Title", "Artist", "Genre", "Year", "Comment",
