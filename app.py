@@ -101,7 +101,6 @@ def get_albums(sort_fields=[]):
             query += sort_fields.pop(0)
             while sort_fields != []:
                 query += ", " + sort_fields.pop(0)
-                print(query)
         cursor.execute(query, multi=True)
         return cursor.fetchall()
     except mysql.connector.Error as e:
